@@ -12,26 +12,28 @@
 # top-level directory of the distribution or, alternatively, at
 # <http://www.OpenLDAP.org/license.html>.
 
-LIBTOOL=/usr/bin/libtool
+LIBTOOL=../../../debian/build/libtool
 OPT=-g -O2
 CC=gcc
 
 SSL_INC=
-LDAP_INC=-I/usr/include
+LDAP_INC=-I../../../include -I../../../servers/slapd -I../../../../../include -I../../../../../servers/slapd -I../../../debian/build/include
 INCS=$(LDAP_INC) $(SSL_INC)
 
 KRB5_LIB=-lkrb5 -lkadm5clnt_mit
 SSL_LIB=-lcrypto
-LDAP_LIB=-L/usr/lib64 -lldap_r \
-	 -L/usr/lib64 -llber
+LDAP_LIB=-L../../../debian/build/libraries/libldap_r/.libs -lldap_r \
+	 -L../../../debian/build/libraries/liblber/.libs -llber
 LIBS=$(LDAP_LIB) $(KRB5_LIB) $(SSL_LIB)
 
-prefix=/usr
+prefix=/usr/local
 exec_prefix=$(prefix)
 ldap_subdir=/openldap
 
-libdir=$(exec_prefix)/lib64
-moduledir = $(libdir)$(ldap_subdir)
+libdir=$(exec_prefix)/lib
+libexecdir=$(exec_prefix)/libexec
+#moduledir = $(libexecdir)$(ldap_subdir)
+moduledir = /usr/lib/ldap
 
 all:	smbkrb5pwd.la
 
